@@ -79,7 +79,7 @@ const App: React.FC = () => {
   const wordCount = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-12">
+    <div className="min-h-screen bg-slate-50 pb-12 font-sans">
       {showToast && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
           <div className="bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 border border-slate-700">
@@ -97,12 +97,12 @@ const App: React.FC = () => {
             </div>
             <div>
               <h1 className="text-lg font-bold text-slate-900 leading-none tracking-tight">Urdu2English Pro</h1>
-              <p className="text-[10px] text-indigo-500 font-bold uppercase tracking-widest mt-1">Linguistic Excellence</p>
+              <p className="text-[10px] text-indigo-500 font-bold uppercase tracking-widest mt-1">Professional Assistant</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
             <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-              Gemini 3 Flash
+              Production Mode
             </span>
           </div>
         </div>
@@ -114,7 +114,7 @@ const App: React.FC = () => {
             <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-2 text-slate-600">
                 <i className="fa-solid fa-keyboard text-xs"></i>
-                <span className="text-xs font-bold uppercase tracking-wider">Input Text</span>
+                <span className="text-xs font-bold uppercase tracking-wider">Input Source</span>
               </div>
               {inputText && (
                 <button 
@@ -128,15 +128,15 @@ const App: React.FC = () => {
             
             <textarea
               className="w-full h-56 p-6 text-xl text-slate-800 placeholder:text-slate-300 focus:outline-none resize-none urdu-font bg-white"
-              placeholder="Enter Urdu or Roman Urdu here... (e.g. Aaj kaam zyada hai)"
+              placeholder="Type Urdu or Roman Urdu... (e.g. Aaj mausam kaisa hai?)"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />
 
             <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
               <div className="flex gap-4">
-                 <span className="text-[10px] font-bold text-slate-400 uppercase">{inputText.length} chars</span>
-                 <span className="text-[10px] font-bold text-slate-400 uppercase">{wordCount(inputText)} words</span>
+                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{inputText.length} chars</span>
+                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{wordCount(inputText)} words</span>
               </div>
               <button
                 onClick={handleTranslate}
@@ -150,7 +150,7 @@ const App: React.FC = () => {
                 {status === TranslationStatus.LOADING ? (
                   <><i className="fa-solid fa-spinner animate-spin"></i> Processing...</>
                 ) : (
-                  <><i className="fa-solid fa-wand-magic-sparkles"></i> Translate to English</>
+                  <><i className="fa-solid fa-bolt"></i> Convert to English</>
                 )}
               </button>
             </div>
@@ -169,29 +169,19 @@ const App: React.FC = () => {
                 <div className="p-4 bg-indigo-600 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-white">
                     <i className="fa-solid fa-circle-check"></i>
-                    <span className="text-xs font-bold uppercase tracking-widest">Polished English</span>
+                    <span className="text-xs font-bold uppercase tracking-widest">Corrected English Output</span>
                   </div>
                   <button 
                     onClick={() => copyToClipboard(result)}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-white rounded-lg text-xs font-bold hover:bg-white/20 transition-all"
                   >
-                    <i className="fa-regular fa-copy"></i> Copy Output
+                    <i className="fa-regular fa-copy"></i> Copy
                   </button>
                 </div>
                 <div className="p-10 bg-white">
                   <p className="text-2xl text-slate-900 font-semibold leading-relaxed font-serif">
                     {result}
                   </p>
-                  <div className="mt-8 flex gap-6 pt-6 border-t border-slate-100">
-                    <div className="text-center">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Words</p>
-                      <p className="text-lg font-bold text-slate-800">{wordCount(result)}</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Characters</p>
-                      <p className="text-lg font-bold text-slate-800">{result.length}</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             )}
@@ -200,28 +190,16 @@ const App: React.FC = () => {
 
         <div className="lg:col-span-5">
           <div className="sticky top-24">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                <i className="fa-solid fa-history"></i>
-                History
-              </h2>
-              {history.length > 0 && (
-                <button 
-                  onClick={() => {
-                    if(confirm("Wipe all translation history?")) setHistory([]);
-                  }}
-                  className="text-xs font-bold text-red-400 hover:text-red-600 transition-colors"
-                >
-                  Clear All
-                </button>
-              )}
-            </div>
+            <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2 mb-6">
+              <i className="fa-solid fa-history"></i>
+              History
+            </h2>
 
             <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 custom-scrollbar">
               {history.length === 0 ? (
                 <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-slate-200">
                   <i className="fa-solid fa-quote-left text-slate-100 text-6xl mb-4"></i>
-                  <p className="text-slate-400 font-bold text-sm">No translations yet</p>
+                  <p className="text-slate-400 font-bold text-sm">No translations recorded</p>
                 </div>
               ) : (
                 history.map(record => (
